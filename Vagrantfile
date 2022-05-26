@@ -3,6 +3,7 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/focal64" 
+  config.vm.post_up_message = "Seu ambiente está pronto. Aponte seu browser para http://192.168.33.101 para acessar a aplicação."
   config.vm.provider "virtualbox" do |vb|
     vb.customize [
       "modifyvm", :id,
