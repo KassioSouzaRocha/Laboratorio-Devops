@@ -16,6 +16,8 @@ echo '192.168.0.100 master.labnetcom.example' >> /etc/hosts
 echo '192.168.0.110 node01.labnetcom.example' >> /etc/hosts
 echo '192.168.0.120 node02.labnetcom.example'>> /etc/hosts
 echo '192.168.0.200 node03.labnetcom.example' >> /etc/hosts
+echo '192.168.0.250 gitlab.labnetcom.example' >> /etc/hosts
+
 
 curl -fsSL https://get.docker.com | bash
 systemctl start docker
