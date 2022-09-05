@@ -1,31 +1,28 @@
 # -* mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/focal64" 
-  config.vm.post_up_message = "Seu ambiente está pronto. Aponte seu browser para http://192.168.33.101 para acessar a aplicação."
-  config.vm.provider "virtualbox" do |vb|
-    vb.customize [
-      "modifyvm", :id,
-      "--memory", "1024",
-      "--paravirtprovider", "kvm", # for linux guest
-      "--cpus", "2"
-    ]
-  
-    vb.customize [
-      "storagectl", :id,
-      "--name", "SATA NETCOM",
-#      "--bootable", "on",
-      "--add", "virtio",
-      "--controller", "VirtIO"
-    ]
-    vb.customize [
-      "storageattach", :id,
-      "--port", "0",
-      "--device", "0",
-      "--type", "hdd",
-      "--medium", "ubuntu-focal-20.04-cloudimg.vmdk"
-    ]
+machines = {
+  "master"   => {"memory" => "2048", "cpu" => "2", "ip" => "100", "image" => "ubuntu/focal64"},
+  "node01"   => {"memory" => "1024", "cpu" => "1", "ip" => "110", "image" => "ubuntu/focal64"},
+  "node02"   => {"memory" => "1024", "cpu" => "1", "ip" => "120", "image" => "centos/7"},
+  "node03"   => {"memory" => "1024", "cpu" => "1", "ip" => "200", "image" => "ubuntu/focal64"}
+}
 
+Vagrant.configure("2") do |config|
+
+  machines.each do |name, conf|
+    config.vm.define "#{name}" do |machine|
+      machine.vm.box = "#{conf["image"]}"
+      machine.vm.hostname = "#{name}.docker-dca.example"
+      machine.vm.network "public_network", ip: "192.168.0.#{conf["ip"]}"
+      machine.vm.provider "virtualbox" do |vb|
+        vb.name = "#{name}"
+        vb.memory = conf["memory"]
+        vb.cpus = conf["cpu"]
+        vb.customize ["modifyvm", :id, "--groups", "/Lab-devops"]
+      end
+      machine.vm.provision "shell", path: "provision.sh"
+      machine.vm.provision "shell", inline: "hostnamectl set-hostname #{name}.labnetcom.example"
+    end
   end
 end

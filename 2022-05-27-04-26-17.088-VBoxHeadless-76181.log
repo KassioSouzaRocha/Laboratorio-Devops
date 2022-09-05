@@ -1,0 +1,12 @@
+Log created: 2022-05-27T04:26:17.885678000Z
+Process ID:  76181 (0x12995)
+Parent PID:  75465 (0x126c9)
+Executable:  /opt/VirtualBox/VBoxHeadless
+Arg[0]: /opt/VirtualBox/VBoxHeadless
+Arg[1]: --comment
+Arg[2]: Laboratorio-Devops_default_1653602625138_10708
+Arg[3]: --startvm
+Arg[4]: c81091ff-b6c2-4861-9459-82e0ddeda89d
+Arg[5]: --vrde
+Arg[6]: config
+AddRef: illegal refcnt=3221225469 state=2
